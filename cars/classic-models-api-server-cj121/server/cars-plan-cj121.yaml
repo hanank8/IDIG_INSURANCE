@@ -1,0 +1,14 @@
+kind: Plan
+apiVersion: api.ibm.com/v1
+metadata:
+  name: cars-plan-cj121
+  namespace: cars
+  version: "1.0"
+  tags: []
+  description: ""
+  domain: mcp
+spec:
+  qos:
+    withQuota:
+      cars-plan-cj121-limit:
+        - $ref: cars:cars-quota-cj121:1.0

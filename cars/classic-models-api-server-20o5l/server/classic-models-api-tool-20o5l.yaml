@@ -1,7 +1,7 @@
 kind: MCPTools
 apiVersion: api.ibm.com/v1
 metadata:
-  name: classic-models-api-tool-cj121
+  name: classic-models-api-tool-20o5l
   namespace: cars
   version: "1.0"
   tags: []
@@ -1784,16 +1784,15 @@ spec:
         operationMethod: GET
         api:
           $path: ./classic-models-api-spec.yml
-    - name: oauth_authorize_post
+    - name: oauth_authorize_get
       description: >-
-        Processes the submitted login form credentials. On success issues a
-        short-lived authorization code and redirects to
-        `redirect_uri?code=<code>&state=<state>`. On invalid credentials
-        re-renders the form with an error message.
+        Authorization endpoint per RFC 6749 �4.1.1 and RFC 7636 (PKCE).
 
 
-        Errors that cannot safely redirect (unknown `client_id`, unregistered
-        `redirect_uri`) return HTTP 400 directly per RFC 6749 �4.1.2.1.
+        Validates the OAuth parameters and renders the login form for the
+        resource owner (user) to authenticate. Errors that cannot safely
+        redirect (unknown `client_id`, unregistered `redirect_uri`) return HTTP
+        400 directly per RFC 6749 �4.1.2.1.
       inputSchema:
         type: object
         properties:
@@ -1804,27 +1803,29 @@ spec:
           client_id:
             type: string
             format: uuid
-            description: Registered OAuth client identifier.
+            description: The registered OAuth client identifier (UUID).
           redirect_uri:
             type: string
             minLength: 1
-            description: Must exactly match a registered redirect URI.
+            description: Must exactly match one of the URIs registered for this client.
           code_challenge:
             type: string
             minLength: 1
-            description: BASE64URL(SHA-256(code_verifier))  PKCE challenge.
+            description: BASE64URL(SHA-256(code_verifier))  PKCE challenge (RFC 7636).
           code_challenge_method:
             type: string
             minLength: 1
-            description: Must be `"S256"`.
+            description: Must be `"S256"`. Plain is not supported.
           state:
             type: string
             minLength: 1
-            description: Opaque state value echoed back in the redirect.
+            description: Opaque value the client uses to maintain state between request and
+              callback.
           scope:
             type: string
             minLength: 1
-            description: Space-separated scopes (optional; currently unused).
+            description: Space-separated list of requested scopes (optional; currently
+              unused).
           username:
             type: string
             minLength: 1
@@ -1847,20 +1848,30 @@ spec:
         operationMethod: POST
         api:
           $path: ./classic-models-api-spec.yml
-    - name: oauth_authorize_get
+    - name: oauth_token
       description: >-
-        Authorization endpoint per RFC 6749 �4.1.1 and RFC 7636 (PKCE).
+        Token endpoint per RFC 6749 �4.1.3 and �6. Accepts
+        `application/x-www-form-urlencoded` bodies only (not JSON).
 
 
-        Validates the OAuth parameters and renders the login form for the
-        resource owner (user) to authenticate. Errors that cannot safely
-        redirect (unknown `client_id`, unregistered `redirect_uri`) return HTTP
-        400 directly per RFC 6749 �4.1.2.1.
+        **grant_type=authorization_code**  Exchange a short-lived authorization
+        code (obtained from the authorization endpoint) for an access token and
+        refresh token. Requires the PKCE `code_verifier` matching the
+        `code_challenge` supplied during authorization.
+
+
+        **grant_type=refresh_token**  Exchange a refresh token for a new access
+        token. When token rotation is enabled (default) the old refresh token is
+        blacklisted and a new one is returned.
+
+
+        Client credentials are authenticated via `client_id` and `client_secret`
+        form fields (`client_secret_post` method).
       inputSchema:
         type: object
         properties:
           client_id:
-            description: The registered OAuth client identifier (UUID).
+            description: Registered OAuth client identifier.
             x-parameter-location: query
             type: string
           code_challenge:
@@ -1872,7 +1883,8 @@ spec:
             x-parameter-location: query
             type: string
           redirect_uri:
-            description: Must exactly match one of the URIs registered for this client.
+            description: Must match the `redirect_uri` used during authorization. Required
+              for `authorization_code` grant.
             x-parameter-location: query
             type: string
           response_type:
@@ -1901,25 +1913,20 @@ spec:
         operationMethod: GET
         api:
           $path: ./classic-models-api-spec.yml
-    - name: oauth_token
+    - name: oauth_revoke
       description: >-
-        Token endpoint per RFC 6749 �4.1.3 and �6. Accepts
-        `application/x-www-form-urlencoded` bodies only (not JSON).
+        Token revocation endpoint per RFC 7009. Accepts
+        `application/x-www-form-urlencoded` bodies only.
 
 
-        **grant_type=authorization_code**  Exchange a short-lived authorization
-        code (obtained from the authorization endpoint) for an access token and
-        refresh token. Requires the PKCE `code_verifier` matching the
-        `code_challenge` supplied during authorization.
+        Blacklists the supplied refresh token so it can no longer be used to
+        obtain new access tokens. Per RFC 7009 �2.2 the server always returns
+        HTTP 200  even if the token is already invalid or expired  to avoid
+        leaking token validity information.
 
 
-        **grant_type=refresh_token**  Exchange a refresh token for a new access
-        token. When token rotation is enabled (default) the old refresh token is
-        blacklisted and a new one is returned.
-
-
-        Client credentials are authenticated via `client_id` and `client_secret`
-        form fields (`client_secret_post` method).
+        Client credentials are required and authenticated via
+        `client_secret_post`.
       inputSchema:
         type: object
         properties:

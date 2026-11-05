@@ -1,7 +1,7 @@
 kind: Quota
 apiVersion: api.ibm.com/v1
 metadata:
-  name: cars-quota-cj121
+  name: cars-quota-20o5l
   namespace: cars
   version: "1.0"
   tags: []

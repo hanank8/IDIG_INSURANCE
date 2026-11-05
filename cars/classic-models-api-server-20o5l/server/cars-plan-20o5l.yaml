@@ -1,7 +1,7 @@
 kind: Plan
 apiVersion: api.ibm.com/v1
 metadata:
-  name: cars-plan-cj121
+  name: cars-plan-20o5l
   namespace: cars
   version: "1.0"
   tags: []
@@ -10,5 +10,5 @@ metadata:
 spec:
   qos:
     withQuota:
-      cars-plan-cj121-limit:
-        - $ref: cars:cars-quota-cj121:1.0
+      cars-plan-20o5l-limit:
+        - $ref: cars:cars-quota-20o5l:1.0

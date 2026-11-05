@@ -1,0 +1,20 @@
+kind: FreeFlowPolicySequence
+apiVersion: api.ibm.com/v1
+metadata:
+  name: classic-cars-corporation-hanan-v1-freeflowpolicysequence-clyxc
+  namespace: Classic-Cars-Corporation-HANAN-V1
+  version: '1.0'
+  tags: []
+  labels:
+    gatewayTypes:
+      - nano
+  domain: mcp
+spec:
+  main:
+    - $ref: Classic-Cars-Corporation-HANAN-V1:Set-nTllW:1.0
+    - $ref: Classic-Cars-Corporation-HANAN-V1:Set-yiF2J:1.0
+    - $ref: Classic-Cars-Corporation-HANAN-V1:invoke-clyxc:1.0
+    - $ref: Classic-Cars-Corporation-HANAN-V1:Parse-8fxeQ:1.0
+    - $ref: Classic-Cars-Corporation-HANAN-V1:Set-BqSak:1.0
+  monitoring:
+    $ref: Classic-Cars-Corporation-HANAN-V1:telemetry-clyxc:1.0

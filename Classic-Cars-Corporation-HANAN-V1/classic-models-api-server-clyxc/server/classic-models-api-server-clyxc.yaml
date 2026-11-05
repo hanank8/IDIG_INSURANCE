@@ -1,0 +1,20 @@
+kind: MCPServer
+apiVersion: api.ibm.com/v1
+metadata:
+  name: classic-models-api-server-clyxc
+  namespace: Classic-Cars-Corporation-HANAN-V1
+  version: "1.0"
+  tags: []
+  domain: mcp
+  labels:
+    origin: mcp-rest
+spec:
+  title: Classic Models API MCP Server
+  protocolVersion: V2025_11_25
+  plans:
+    - $ref: Classic-Cars-Corporation-HANAN-V1:classic-cars-corporation-hanan-v1-plan-clyxc:1.0
+  policy-sequence:
+    - $ref: Classic-Cars-Corporation-HANAN-V1:classic-cars-corporation-hanan-v1-freeflowpolicysequence-clyxc:1.0
+  capabilities:
+    tools:
+      - $ref: Classic-Cars-Corporation-HANAN-V1:classic-models-api-tool-clyxc:1.0

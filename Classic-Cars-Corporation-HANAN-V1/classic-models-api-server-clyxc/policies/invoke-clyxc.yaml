@@ -1,0 +1,28 @@
+kind: Invoke
+apiVersion: api.ibm.com/v1
+metadata:
+  name: invoke-clyxc
+  namespace: Classic-Cars-Corporation-HANAN-V1
+  version: '1.0'
+  tags: []
+  domain: mcp
+  labels:
+    gatewayTypes:
+      - nano
+spec:
+  endpoint:
+    http:
+      target:
+        tlsClientProfile: sample-tls-client-profile:1.0.0
+        url: >-
+          'http://classic-models-api.sample-demo-apis.svc.cluster.local:8000' &
+          $pathAndQuery()
+        urlType: jsonata
+        persistentConnections: false
+        timeout: 30
+        decompressResponse: true
+        followRedirects: false
+        chunkedUpload: false
+        version: HTTP/1.1
+  input: request
+  output: responsebackend

@@ -1,0 +1,14 @@
+kind: Plan
+apiVersion: api.ibm.com/v1
+metadata:
+  name: classic-cars-corporation-hanan-v1-plan-clyxc
+  namespace: Classic-Cars-Corporation-HANAN-V1
+  version: "1.0"
+  tags: []
+  description: ""
+  domain: mcp
+spec:
+  qos:
+    withQuota:
+      classic-cars-corporation-hanan-v1-plan-clyxc-limit:
+        - $ref: Classic-Cars-Corporation-HANAN-V1:classic-cars-corporation-hanan-v1-quota-clyxc:1.0

@@ -1,6 +1,21 @@
 {
   "nodes": [
     {
+      "id": "0855f849-7ed8-46e8-ae99-858ff07f3305:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/server/classic-models-api-tool-6nv5k.yaml",
+      "docIndex": 0,
+      "assetType": "resource",
+      "lastIndexed": 1793900521679,
+      "schemaVersion": 1,
+      "kind": "MCPTools",
+      "name": "classic-models-api-tool-6nv5k",
+      "namespace": "cars",
+      "version": "1.0",
+      "domain": "mcp",
+      "contentHash": "f09874a7e5234211"
+    },
+    {
       "id": "0f0a3b5b-d10b-41d2-bbfc-69d3fc70b1bb:0",
       "projectId": "cHIbVPLW",
       "filePath": "cars/.project-index",
@@ -10,6 +25,60 @@
       "schemaVersion": 1
     },
     {
+      "id": "22f2d407-10b0-4654-aeb2-672100fbb83d:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/server/classic-models-api-spec.yml",
+      "docIndex": 0,
+      "assetType": "support",
+      "lastIndexed": 1793900516399,
+      "schemaVersion": 1
+    },
+    {
+      "id": "2a8da08e-6fa9-497f-9675-b0c2aed7248a:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/server/cars-plan-6nv5k.yaml",
+      "docIndex": 0,
+      "assetType": "resource",
+      "lastIndexed": 1793900520721,
+      "schemaVersion": 1,
+      "kind": "Plan",
+      "name": "cars-plan-6nv5k",
+      "namespace": "cars",
+      "version": "1.0",
+      "domain": "mcp",
+      "contentHash": "4ab091f2c46eae64"
+    },
+    {
+      "id": "2cd86d5e-e9d8-4de9-9f54-7a9156ed83bb:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/policies/telemetry-6nv5k.yaml",
+      "docIndex": 0,
+      "assetType": "resource",
+      "lastIndexed": 1793900518197,
+      "schemaVersion": 1,
+      "kind": "Telemetry",
+      "name": "telemetry-6nv5k",
+      "namespace": "cars",
+      "version": "1.0",
+      "domain": "mcp",
+      "contentHash": "d50ab0fb2550e639"
+    },
+    {
+      "id": "36cf44da-db13-430b-811e-f650aade57b4:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/server/classic-models-api-server-6nv5k.yaml",
+      "docIndex": 0,
+      "assetType": "resource",
+      "lastIndexed": 1793900522808,
+      "schemaVersion": 1,
+      "kind": "MCPServer",
+      "name": "classic-models-api-server-6nv5k",
+      "namespace": "cars",
+      "version": "1.0",
+      "domain": "mcp",
+      "contentHash": "5e7ebde417d626b1"
+    },
+    {
       "id": "47b5760a-ebcf-4c17-9137-c0c2f0a8afd7:0",
       "projectId": "cHIbVPLW",
       "filePath": "cars/classic-models-api-server-20o5l/server/classic-models-api-spec.yml",
@@ -17,6 +86,21 @@
       "assetType": "support",
       "lastIndexed": 1793900124242,
       "schemaVersion": 1
+    },
+    {
+      "id": "550042a4-d9ed-43e8-a3aa-4d83e724c866:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/server/cars-quota-6nv5k.yaml",
+      "docIndex": 0,
+      "assetType": "resource",
+      "lastIndexed": 1793900519930,
+      "schemaVersion": 1,
+      "kind": "Quota",
+      "name": "cars-quota-6nv5k",
+      "namespace": "cars",
+      "version": "1.0",
+      "domain": "mcp",
+      "contentHash": "1a7cb5fb099a78e4"
     },
     {
       "id": "62133d5b-47fc-41d2-bf97-ee2143a2e25a:0",
@@ -32,6 +116,36 @@
       "version": "1.0",
       "domain": "mcp",
       "contentHash": "2b2f399d34879e25"
+    },
+    {
+      "id": "adaf83aa-b438-4514-b44e-d0ec47ac1c59:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/policies/invoke-6nv5k.yaml",
+      "docIndex": 0,
+      "assetType": "resource",
+      "lastIndexed": 1793900517248,
+      "schemaVersion": 1,
+      "kind": "Invoke",
+      "name": "invoke-6nv5k",
+      "namespace": "cars",
+      "version": "1.0",
+      "domain": "mcp",
+      "contentHash": "ea854dd985ddb643"
+    },
+    {
+      "id": "e6dc7fdd-0bf8-47e7-96b4-44f63df4a5d9:0",
+      "projectId": "cHIbVPLW",
+      "filePath": "cars/classic-models-api-server-6nv5k/policies/cars-freeflowpolicysequence-6nv5k.yaml",
+      "docIndex": 0,
+      "assetType": "resource",
+      "lastIndexed": 1793900519087,
+      "schemaVersion": 1,
+      "kind": "FreeFlowPolicySequence",
+      "name": "cars-freeflowpolicysequence-6nv5k",
+      "namespace": "cars",
+      "version": "1.0",
+      "domain": "mcp",
+      "contentHash": "79c038c97699863e"
     },
     {
       "id": "f38697c0-e49c-445d-9a10-c757ddd615ea:0",
@@ -66,6 +180,30 @@
   ],
   "edges": [
     {
+      "id": "0044b6c9-350c-4bcd-9ae4-493b3617f44a",
+      "projectId": "cHIbVPLW",
+      "sourceNodeId": "36cf44da-db13-430b-811e-f650aade57b4:0",
+      "targetNodeId": "2a8da08e-6fa9-497f-9675-b0c2aed7248a:0",
+      "targetRefType": "same-project",
+      "targetRefString": "cars:cars-plan-6nv5k:1.0",
+      "targetRefKind": "resource",
+      "isValid": true,
+      "createdAt": 1793900522815,
+      "lastValidated": 1793900522815
+    },
+    {
+      "id": "01f67813-9b4d-49e0-afcd-e8d9d482cd29",
+      "projectId": "cHIbVPLW",
+      "sourceNodeId": "0855f849-7ed8-46e8-ae99-858ff07f3305:0",
+      "targetNodeId": "22f2d407-10b0-4654-aeb2-672100fbb83d:0",
+      "targetRefType": "same-project",
+      "targetRefString": "./classic-models-api-spec.yml",
+      "targetRefKind": "support",
+      "isValid": true,
+      "createdAt": 1793900521688,
+      "lastValidated": 1793900521688
+    },
+    {
       "id": "13931880-82cc-422d-b8ce-d33c472fae50",
       "projectId": "cHIbVPLW",
       "sourceNodeId": "f38697c0-e49c-445d-9a10-c757ddd615ea:0",
@@ -76,6 +214,30 @@
       "isValid": true,
       "createdAt": 1793900130528,
       "lastValidated": 1793900130528
+    },
+    {
+      "id": "453bb440-d496-4fd5-973a-47c34fa410ee",
+      "projectId": "cHIbVPLW",
+      "sourceNodeId": "36cf44da-db13-430b-811e-f650aade57b4:0",
+      "targetNodeId": "0855f849-7ed8-46e8-ae99-858ff07f3305:0",
+      "targetRefType": "same-project",
+      "targetRefString": "cars:classic-models-api-tool-6nv5k:1.0",
+      "targetRefKind": "resource",
+      "isValid": true,
+      "createdAt": 1793900522815,
+      "lastValidated": 1793900522815
+    },
+    {
+      "id": "4bbbe4b9-9e5f-49fc-a22f-9f683cee57dd",
+      "projectId": "cHIbVPLW",
+      "sourceNodeId": "36cf44da-db13-430b-811e-f650aade57b4:0",
+      "targetNodeId": "e6dc7fdd-0bf8-47e7-96b4-44f63df4a5d9:0",
+      "targetRefType": "same-project",
+      "targetRefString": "cars:cars-freeflowpolicysequence-6nv5k:1.0",
+      "targetRefKind": "resource",
+      "isValid": true,
+      "createdAt": 1793900522815,
+      "lastValidated": 1793900522815
     },
     {
       "id": "4c3debca-0958-47e8-80b2-6522e7a47717",
@@ -114,6 +276,18 @@
       "lastValidated": 1793900129430
     },
     {
+      "id": "aa0c9d72-53b2-4dbc-a100-910c40949f2d",
+      "projectId": "cHIbVPLW",
+      "sourceNodeId": "2a8da08e-6fa9-497f-9675-b0c2aed7248a:0",
+      "targetNodeId": "550042a4-d9ed-43e8-a3aa-4d83e724c866:0",
+      "targetRefType": "same-project",
+      "targetRefString": "cars:cars-quota-6nv5k:1.0",
+      "targetRefKind": "resource",
+      "isValid": true,
+      "createdAt": 1793900520726,
+      "lastValidated": 1793900520726
+    },
+    {
       "id": "b4586338-7e41-4222-aea5-3f9c5c986dc7",
       "projectId": "cHIbVPLW",
       "sourceNodeId": "e0124df6-bc2b-4761-8e1b-b576b77230d9:0",
@@ -124,6 +298,30 @@
       "isValid": true,
       "createdAt": 1793898971265,
       "lastValidated": 1793898971265
+    },
+    {
+      "id": "d4aede6a-c704-46dc-b062-28482fdd9c95",
+      "projectId": "cHIbVPLW",
+      "sourceNodeId": "e6dc7fdd-0bf8-47e7-96b4-44f63df4a5d9:0",
+      "targetNodeId": "adaf83aa-b438-4514-b44e-d0ec47ac1c59:0",
+      "targetRefType": "same-project",
+      "targetRefString": "cars:invoke-6nv5k:1.0",
+      "targetRefKind": "resource",
+      "isValid": true,
+      "createdAt": 1793900519091,
+      "lastValidated": 1793900519091
+    },
+    {
+      "id": "eb90436f-4c41-47f2-88eb-7f867aded2f2",
+      "projectId": "cHIbVPLW",
+      "sourceNodeId": "e6dc7fdd-0bf8-47e7-96b4-44f63df4a5d9:0",
+      "targetNodeId": "2cd86d5e-e9d8-4de9-9f54-7a9156ed83bb:0",
+      "targetRefType": "same-project",
+      "targetRefString": "cars:telemetry-6nv5k:1.0",
+      "targetRefKind": "resource",
+      "isValid": true,
+      "createdAt": 1793900519091,
+      "lastValidated": 1793900519091
     },
     {
       "id": "ffa4f3d3-f38c-4ed0-9162-07b71ef425e4",

@@ -1,0 +1,14 @@
+kind: Plan
+apiVersion: api.ibm.com/v1
+metadata:
+  name: cars-plan-6nv5k
+  namespace: cars
+  version: "1.0"
+  tags: []
+  description: ""
+  domain: mcp
+spec:
+  qos:
+    withQuota:
+      cars-plan-6nv5k-limit:
+        - $ref: cars:cars-quota-6nv5k:1.0

@@ -1,0 +1,16 @@
+kind: FreeFlowPolicySequence
+apiVersion: api.ibm.com/v1
+metadata:
+  name: cars-freeflowpolicysequence-6nv5k
+  namespace: cars
+  version: "1.0"
+  tags: []
+  domain: mcp
+  labels:
+    gatewayTypes:
+      - nano
+spec:
+  main:
+    - $ref: cars:invoke-6nv5k:1.0
+  monitoring:
+    $ref: cars:telemetry-6nv5k:1.0

@@ -1,0 +1,20 @@
+kind: MCPServer
+apiVersion: api.ibm.com/v1
+metadata:
+  name: classic-models-api-server-6nv5k
+  namespace: cars
+  version: "1.0"
+  tags: []
+  domain: mcp
+  labels:
+    origin: mcp-rest
+spec:
+  title: Classic Models API MCP Server
+  protocolVersion: V2025_11_25
+  plans:
+    - $ref: cars:cars-plan-6nv5k:1.0
+  policy-sequence:
+    - $ref: cars:cars-freeflowpolicysequence-6nv5k:1.0
+  capabilities:
+    tools:
+      - $ref: cars:classic-models-api-tool-6nv5k:1.0

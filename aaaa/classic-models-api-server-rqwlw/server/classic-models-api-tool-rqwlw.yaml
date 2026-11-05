@@ -1,0 +1,2017 @@
+kind: MCPTools
+apiVersion: api.ibm.com/v1
+metadata:
+  name: classic-models-api-tool-rqwlw
+  namespace: aaaa
+  version: "1.0"
+  tags: []
+  description: >-
+    API for the Classic Models tutorial database with multiple authentication
+    options.
+
+
+    ## Authentication Methods
+
+
+    This API supports three authentication methods:
+
+
+    ### 1. OAuth 2.0 (Authorization Code + PKCE)
+
+
+    Standards-compliant OAuth 2.0 IDP flow  recommended for third-party
+    application integrations such as watsonx Orchestrate (RFC 6749, RFC 7636,
+    RFC 7009).
+
+
+    Clients must be registered server-side before use. See the [OAuth 2.0
+    Authentication guide](docs/OAUTH_AUTHENTICATION.md) for client registration,
+    token lifecycle details, and watsonx Orchestrate configuration.
+
+
+    **Flow summary:**
+
+
+    1. **Authorize**: GET `/classic-models/api/oauth/authorize/`  user logs in
+    via browser
+
+    2. **Exchange code**: POST `/classic-models/api/oauth/token/` 
+    `grant_type=authorization_code` + PKCE verifier
+
+    3. **Use token**: `Authorization: Bearer <access_token>`
+
+    4. **Refresh**: POST `/classic-models/api/oauth/token/` 
+    `grant_type=refresh_token`
+
+    5. **Revoke**: POST `/classic-models/api/oauth/token/revoke/`
+
+
+    OIDC auto-discovery: `GET
+    /classic-models/api/auth/.well-known/openid-configuration`
+
+
+    ### 2. JWT Authentication
+
+
+    Direct user authentication  suitable for first-party clients and testing:
+
+
+    1. **Login**: POST `/classic-models/api/auth/login/` with username and
+    password
+
+    2. **Use Token**: `Authorization: Bearer <access_token>`
+
+    3. **Refresh**: POST `/classic-models/api/oauth/token/` 
+    `grant_type=refresh_token`
+
+    4. **Logout**: POST `/classic-models/api/auth/logout/`
+
+
+    ### 3. API Key Authentication
+
+
+    System-level authentication with full admin access (demo purposes):
+
+
+    - **Header**: `X-API-Key: your-api-key`
+
+    - **Access**: Full read/write/delete permissions
+
+    - **Configuration**: Set `API_KEY` environment variable
+
+    - **Use Case**: Automated scripts, testing, system integrations
+
+
+    ## Base Path
+
+
+    All endpoints are served at `/classic-models` base path.
+
+
+    ## Public Endpoints
+
+
+    - API documentation (this page)
+
+    - Authentication endpoints (`/classic-models/api/auth/`)
+
+    - OAuth 2.0 endpoints (`/classic-models/api/oauth/`)
+
+
+    ## Protected Endpoints
+
+
+    - All Classic Models data endpoints (`/classic-models/api/v1/`)
+
+    - Require either a JWT/OAuth Bearer token OR API key
+  domain: mcp
+  labels:
+    api-spec: ./classic-models-api-spec.yml
+spec:
+  tools:
+    - name: list_product_lines
+      description: Retrieve a paginated list of all product line categories in the system.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all product lines
+      x-api-binding:
+        operationPath: /classic-models/api/v1/productlines/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_product_line
+      description: Add a new product line category to the system.
+      inputSchema:
+        type: object
+        properties:
+          productline: &a1
+            type: string
+            minLength: 1
+            maxLength: 50
+          textdescription: &a2
+            type: string
+            nullable: true
+            maxLength: 4000
+          htmldescription: &a3
+            type: string
+            nullable: true
+        required:
+          - productline
+      title: Create a new product line
+      x-api-binding:
+        operationPath: /classic-models/api/v1/productlines/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_product_line
+      description: Retrieve detailed information about a specific product line by its
+        identifier.
+      inputSchema:
+        type: object
+        properties:
+          productline:
+            description: A unique value identifying this product line.
+            x-parameter-location: path
+            type: string
+        required:
+          - productline
+      title: Get a specific product line
+      x-api-binding:
+        operationPath: /classic-models/api/v1/productlines/{productline}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_product_line
+      description: Update all fields of an existing product line.
+      inputSchema:
+        type: object
+        properties:
+          productline:
+            description: A unique value identifying this product line.
+            x-parameter-location: path
+            type: string
+          body_productline: *a1
+          textdescription: *a2
+          htmldescription: *a3
+        required:
+          - productline
+          - body_productline
+      title: Update a product line
+      x-api-binding:
+        operationPath: /classic-models/api/v1/productlines/{productline}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_product_line
+      description: Update specific fields of an existing product line.
+      inputSchema:
+        type: object
+        properties:
+          productline:
+            description: A unique value identifying this product line.
+            x-parameter-location: path
+            type: string
+          body_productline:
+            type: string
+            minLength: 1
+            maxLength: 50
+          textdescription:
+            type: string
+            nullable: true
+            maxLength: 4000
+          htmldescription:
+            type: string
+            nullable: true
+        required:
+          - productline
+      title: Partially update a product line
+      x-api-binding:
+        operationPath: /classic-models/api/v1/productlines/{productline}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_product_line
+      description: Remove a product line from the system.
+      inputSchema:
+        type: object
+        properties:
+          productline:
+            description: A unique value identifying this product line.
+            x-parameter-location: path
+            type: string
+        required:
+          - productline
+      title: Delete a product line
+      x-api-binding:
+        operationPath: /classic-models/api/v1/productlines/{productline}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_product_line_products
+      description: Retrieve all products in a specific product line category. This
+        endpoint allows browsing products by category.
+      inputSchema:
+        type: object
+        properties:
+          productline:
+            description: The product line identifier
+            x-parameter-location: path
+            type: string
+        required:
+          - productline
+      title: Get products by product line
+      x-api-binding:
+        operationPath: /classic-models/api/v1/productlines/{productline}/products/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: list_products
+      description: Retrieve a paginated list of all products in the catalog with their
+        details.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all products
+      x-api-binding:
+        operationPath: /classic-models/api/v1/products/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_product
+      description: Add a new product to the catalog with all required information.
+      inputSchema:
+        type: object
+        properties:
+          productcode: &a4
+            type: string
+            minLength: 1
+            maxLength: 15
+          productname: &a5
+            type: string
+            minLength: 1
+            maxLength: 70
+          productscale: &a6
+            type: string
+            minLength: 1
+            maxLength: 10
+          productvendor: &a7
+            type: string
+            minLength: 1
+            maxLength: 50
+          productdescription: &a8
+            type: string
+            minLength: 1
+          quantityinstock: &a9
+            type: integer
+            maximum: 32767
+            minimum: -32768
+          buyprice: &a10
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          msrp: &a11
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          productline: &a12
+            type: string
+            minLength: 1
+        required:
+          - productcode
+          - productname
+          - productscale
+          - productvendor
+          - productdescription
+          - quantityinstock
+          - buyprice
+          - msrp
+          - productline
+      title: Create a new product
+      x-api-binding:
+        operationPath: /classic-models/api/v1/products/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_product
+      description: Retrieve detailed information about a specific product by its code.
+      inputSchema:
+        type: object
+        properties:
+          productcode:
+            description: A unique value identifying this product.
+            x-parameter-location: path
+            type: string
+        required:
+          - productcode
+      title: Get a specific product
+      x-api-binding:
+        operationPath: /classic-models/api/v1/products/{productcode}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_product
+      description: Update all fields of an existing product in the catalog.
+      inputSchema:
+        type: object
+        properties:
+          productcode:
+            description: A unique value identifying this product.
+            x-parameter-location: path
+            type: string
+          body_productcode: *a4
+          productname: *a5
+          productscale: *a6
+          productvendor: *a7
+          productdescription: *a8
+          quantityinstock: *a9
+          buyprice: *a10
+          msrp: *a11
+          productline: *a12
+        required:
+          - productcode
+          - body_productcode
+          - productname
+          - productscale
+          - productvendor
+          - productdescription
+          - quantityinstock
+          - buyprice
+          - msrp
+          - productline
+      title: Update a product
+      x-api-binding:
+        operationPath: /classic-models/api/v1/products/{productcode}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_product
+      description: Update specific fields of an existing product.
+      inputSchema:
+        type: object
+        properties:
+          productcode:
+            description: A unique value identifying this product.
+            x-parameter-location: path
+            type: string
+          body_productcode:
+            type: string
+            minLength: 1
+            maxLength: 15
+          productname:
+            type: string
+            minLength: 1
+            maxLength: 70
+          productscale:
+            type: string
+            minLength: 1
+            maxLength: 10
+          productvendor:
+            type: string
+            minLength: 1
+            maxLength: 50
+          productdescription:
+            type: string
+            minLength: 1
+          quantityinstock:
+            type: integer
+            maximum: 32767
+            minimum: -32768
+          buyprice:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          msrp:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          productline:
+            type: string
+            minLength: 1
+        required:
+          - productcode
+      title: Partially update a product
+      x-api-binding:
+        operationPath: /classic-models/api/v1/products/{productcode}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_product
+      description: Remove a product from the catalog.
+      inputSchema:
+        type: object
+        properties:
+          productcode:
+            description: A unique value identifying this product.
+            x-parameter-location: path
+            type: string
+        required:
+          - productcode
+      title: Delete a product
+      x-api-binding:
+        operationPath: /classic-models/api/v1/products/{productcode}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_product_order_details
+      description: Retrieve all order details (sales) for a specific product. This
+        endpoint provides the complete sales history for the product.
+      inputSchema:
+        type: object
+        properties:
+          productcode:
+            description: The product code
+            x-parameter-location: path
+            type: string
+        required:
+          - productcode
+      title: Get product order history
+      x-api-binding:
+        operationPath: /classic-models/api/v1/products/{productcode}/order-details/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_office
+      description: Add a new office location to the company's network.
+      inputSchema:
+        type: object
+        properties:
+          officecode: &a13
+            type: string
+            minLength: 1
+            maxLength: 10
+          city: &a14
+            type: string
+            minLength: 1
+            maxLength: 50
+          phone: &a15
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline1: &a16
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline2: &a17
+            type: string
+            nullable: true
+            maxLength: 50
+          state: &a18
+            type: string
+            nullable: true
+            maxLength: 50
+          country: &a19
+            type: string
+            minLength: 1
+            maxLength: 50
+          postalcode: &a20
+            type: string
+            minLength: 1
+            maxLength: 15
+          territory: &a21
+            type: string
+            minLength: 1
+            maxLength: 10
+        required:
+          - officecode
+          - city
+          - phone
+          - addressline1
+          - country
+          - postalcode
+          - territory
+      title: Create a new office
+      x-api-binding:
+        operationPath: /classic-models/api/v1/offices/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: list_offices
+      description: Retrieve a paginated list of all company office locations worldwide.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all offices
+      x-api-binding:
+        operationPath: /classic-models/api/v1/offices/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_office
+      description: Retrieve detailed information about a specific office by its code.
+      inputSchema:
+        type: object
+        properties:
+          officecode:
+            description: A unique value identifying this office.
+            x-parameter-location: path
+            type: string
+        required:
+          - officecode
+      title: Get a specific office
+      x-api-binding:
+        operationPath: /classic-models/api/v1/offices/{officecode}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_office
+      description: Update all fields of an existing office location.
+      inputSchema:
+        type: object
+        properties:
+          officecode:
+            description: A unique value identifying this office.
+            x-parameter-location: path
+            type: string
+          body_officecode: *a13
+          city: *a14
+          phone: *a15
+          addressline1: *a16
+          addressline2: *a17
+          state: *a18
+          country: *a19
+          postalcode: *a20
+          territory: *a21
+        required:
+          - officecode
+          - body_officecode
+          - city
+          - phone
+          - addressline1
+          - country
+          - postalcode
+          - territory
+      title: Update an office
+      x-api-binding:
+        operationPath: /classic-models/api/v1/offices/{officecode}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_office
+      description: Update specific fields of an existing office location.
+      inputSchema:
+        type: object
+        properties:
+          officecode:
+            description: A unique value identifying this office.
+            x-parameter-location: path
+            type: string
+          body_officecode:
+            type: string
+            minLength: 1
+            maxLength: 10
+          city:
+            type: string
+            minLength: 1
+            maxLength: 50
+          phone:
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline1:
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline2:
+            type: string
+            nullable: true
+            maxLength: 50
+          state:
+            type: string
+            nullable: true
+            maxLength: 50
+          country:
+            type: string
+            minLength: 1
+            maxLength: 50
+          postalcode:
+            type: string
+            minLength: 1
+            maxLength: 15
+          territory:
+            type: string
+            minLength: 1
+            maxLength: 10
+        required:
+          - officecode
+      title: Partially update an office
+      x-api-binding:
+        operationPath: /classic-models/api/v1/offices/{officecode}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_office
+      description: Remove an office location from the company network.
+      inputSchema:
+        type: object
+        properties:
+          officecode:
+            description: A unique value identifying this office.
+            x-parameter-location: path
+            type: string
+        required:
+          - officecode
+      title: Delete an office
+      x-api-binding:
+        operationPath: /classic-models/api/v1/offices/{officecode}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_office_employees
+      description: Retrieve all employees working in a specific office. This endpoint
+        supports office management and organizational charts.
+      inputSchema:
+        type: object
+        properties:
+          officecode:
+            description: The office code
+            x-parameter-location: path
+            type: string
+        required:
+          - officecode
+      title: Get employees by office
+      x-api-binding:
+        operationPath: /classic-models/api/v1/offices/{officecode}/employees/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_employee
+      description: Add a new employee to the organization with their job details and
+        office assignment.
+      inputSchema:
+        type: object
+        properties:
+          employeenumber: &a22
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          lastname: &a23
+            type: string
+            minLength: 1
+            maxLength: 50
+          firstname: &a24
+            type: string
+            minLength: 1
+            maxLength: 50
+          extension: &a25
+            type: string
+            minLength: 1
+            maxLength: 10
+          email: &a26
+            type: string
+            minLength: 1
+            maxLength: 100
+          jobtitle: &a27
+            type: string
+            minLength: 1
+            maxLength: 50
+          officecode: &a28
+            type: string
+            minLength: 1
+          reportsto: &a29
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+            nullable: true
+        required:
+          - employeenumber
+          - lastname
+          - firstname
+          - extension
+          - email
+          - jobtitle
+          - officecode
+      title: Create a new employee
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: list_employees
+      description: Retrieve a paginated list of all employees in the organization with
+        their details.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all employees
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_employee
+      description: Retrieve detailed information about a specific employee by their
+        employee number.
+      inputSchema:
+        type: object
+        properties:
+          employeenumber:
+            description: A unique value identifying this employee.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - employeenumber
+      title: Get a specific employee
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/{employeenumber}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_employee
+      description: Update all fields of an existing employee record.
+      inputSchema:
+        type: object
+        properties:
+          employeenumber:
+            description: A unique value identifying this employee.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          body_employeenumber: *a22
+          lastname: *a23
+          firstname: *a24
+          extension: *a25
+          email: *a26
+          jobtitle: *a27
+          officecode: *a28
+          reportsto: *a29
+        required:
+          - employeenumber
+          - body_employeenumber
+          - lastname
+          - firstname
+          - extension
+          - email
+          - jobtitle
+          - officecode
+      title: Update an employee
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/{employeenumber}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_employee
+      description: Update specific fields of an existing employee record.
+      inputSchema:
+        type: object
+        properties:
+          employeenumber:
+            description: A unique value identifying this employee.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          body_employeenumber:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          lastname:
+            type: string
+            minLength: 1
+            maxLength: 50
+          firstname:
+            type: string
+            minLength: 1
+            maxLength: 50
+          extension:
+            type: string
+            minLength: 1
+            maxLength: 10
+          email:
+            type: string
+            minLength: 1
+            maxLength: 100
+          jobtitle:
+            type: string
+            minLength: 1
+            maxLength: 50
+          officecode:
+            type: string
+            minLength: 1
+          reportsto:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+            nullable: true
+        required:
+          - employeenumber
+      title: Partially update an employee
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/{employeenumber}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_employee
+      description: Remove an employee from the organization.
+      inputSchema:
+        type: object
+        properties:
+          employeenumber:
+            description: A unique value identifying this employee.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - employeenumber
+      title: Delete an employee
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/{employeenumber}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_employee_customers
+      description: Retrieve all customers assigned to a specific sales representative.
+        This endpoint supports sales rep performance tracking and customer
+        management.
+      inputSchema:
+        type: object
+        properties:
+          employeenumber:
+            description: The employee number of the sales representative
+            x-parameter-location: path
+            type: integer
+        required:
+          - employeenumber
+      title: Get customers by sales rep
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/{employeenumber}/customers/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_employee_reports
+      description: Retrieve all employees reporting to a specific manager. This
+        endpoint supports organizational hierarchy and team management.
+      inputSchema:
+        type: object
+        properties:
+          employeenumber:
+            description: The employee number of the manager
+            x-parameter-location: path
+            type: integer
+        required:
+          - employeenumber
+      title: Get employees by manager
+      x-api-binding:
+        operationPath: /classic-models/api/v1/employees/{employeenumber}/reports/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_customer
+      description: Add a new customer to the system with their contact details and
+        credit limit.
+      inputSchema:
+        type: object
+        properties:
+          customernumber: &a30
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          customername: &a31
+            type: string
+            minLength: 1
+            maxLength: 50
+          contactlastname: &a32
+            type: string
+            minLength: 1
+            maxLength: 50
+          contactfirstname: &a33
+            type: string
+            minLength: 1
+            maxLength: 50
+          phone: &a34
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline1: &a35
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline2: &a36
+            type: string
+            nullable: true
+            maxLength: 50
+          city: &a37
+            type: string
+            minLength: 1
+            maxLength: 50
+          state: &a38
+            type: string
+            nullable: true
+            maxLength: 50
+          postalcode: &a39
+            type: string
+            nullable: true
+            maxLength: 15
+          country: &a40
+            type: string
+            minLength: 1
+            maxLength: 50
+          creditlimit: &a41
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            nullable: true
+          salesrepemployeenumber: &a42
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+            nullable: true
+        required:
+          - customernumber
+          - customername
+          - contactlastname
+          - contactfirstname
+          - phone
+          - addressline1
+          - city
+          - country
+      title: Create a new customer
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: list_customers
+      description: Retrieve a paginated list of all customers with their contact and
+        credit information.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all customers
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_customer
+      description: Retrieve detailed information about a specific customer by their
+        customer number.
+      inputSchema:
+        type: object
+        properties:
+          customernumber:
+            description: A unique value identifying this customer.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - customernumber
+      title: Get a specific customer
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/{customernumber}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_customer
+      description: Update all fields of an existing customer record.
+      inputSchema:
+        type: object
+        properties:
+          customernumber:
+            description: A unique value identifying this customer.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          body_customernumber: *a30
+          customername: *a31
+          contactlastname: *a32
+          contactfirstname: *a33
+          phone: *a34
+          addressline1: *a35
+          addressline2: *a36
+          city: *a37
+          state: *a38
+          postalcode: *a39
+          country: *a40
+          creditlimit: *a41
+          salesrepemployeenumber: *a42
+        required:
+          - customernumber
+          - body_customernumber
+          - customername
+          - contactlastname
+          - contactfirstname
+          - phone
+          - addressline1
+          - city
+          - country
+      title: Update a customer
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/{customernumber}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_customer
+      description: Update specific fields of an existing customer record.
+      inputSchema:
+        type: object
+        properties:
+          customernumber:
+            description: A unique value identifying this customer.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          body_customernumber:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          customername:
+            type: string
+            minLength: 1
+            maxLength: 50
+          contactlastname:
+            type: string
+            minLength: 1
+            maxLength: 50
+          contactfirstname:
+            type: string
+            minLength: 1
+            maxLength: 50
+          phone:
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline1:
+            type: string
+            minLength: 1
+            maxLength: 50
+          addressline2:
+            type: string
+            nullable: true
+            maxLength: 50
+          city:
+            type: string
+            minLength: 1
+            maxLength: 50
+          state:
+            type: string
+            nullable: true
+            maxLength: 50
+          postalcode:
+            type: string
+            nullable: true
+            maxLength: 15
+          country:
+            type: string
+            minLength: 1
+            maxLength: 50
+          creditlimit:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            nullable: true
+          salesrepemployeenumber:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+            nullable: true
+        required:
+          - customernumber
+      title: Partially update a customer
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/{customernumber}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_customer
+      description: Remove a customer from the system.
+      inputSchema:
+        type: object
+        properties:
+          customernumber:
+            description: A unique value identifying this customer.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - customernumber
+      title: Delete a customer
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/{customernumber}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_customer_orders
+      description: Retrieve all orders for a specific customer. This endpoint provides
+        the complete sales history for the customer.
+      inputSchema:
+        type: object
+        properties:
+          customernumber:
+            description: The customer number
+            x-parameter-location: path
+            type: integer
+        required:
+          - customernumber
+      title: Get customer sales history
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/{customernumber}/orders/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_customer_payments
+      description: Retrieve all payments made by a specific customer. This endpoint
+        provides the complete payment history for the customer.
+      inputSchema:
+        type: object
+        properties:
+          customernumber:
+            description: The customer number
+            x-parameter-location: path
+            type: integer
+        required:
+          - customernumber
+      title: Get customer payment history
+      x-api-binding:
+        operationPath: /classic-models/api/v1/customers/{customernumber}/payments/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_order
+      description: Create a new customer order with order date, required date, and
+        status information.
+      inputSchema:
+        type: object
+        properties:
+          ordernumber: &a43
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          orderdate: &a44
+            type: string
+            format: date
+          requireddate: &a45
+            type: string
+            format: date
+          shippeddate: &a46
+            type: string
+            format: date
+            nullable: true
+          status: &a47
+            type: string
+            minLength: 1
+            maxLength: 15
+          comments: &a48
+            type: string
+            nullable: true
+          customernumber: &a49
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - ordernumber
+          - orderdate
+          - requireddate
+          - status
+          - customernumber
+      title: Create a new order
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orders/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: list_orders
+      description: Retrieve a paginated list of all customer orders with their status
+        and details.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all orders
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orders/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_order
+      description: Retrieve detailed information about a specific order by its order number.
+      inputSchema:
+        type: object
+        properties:
+          ordernumber:
+            description: A unique value identifying this order.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - ordernumber
+      title: Get a specific order
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orders/{ordernumber}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_order
+      description: Update all fields of an existing order record.
+      inputSchema:
+        type: object
+        properties:
+          ordernumber:
+            description: A unique value identifying this order.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          body_ordernumber: *a43
+          orderdate: *a44
+          requireddate: *a45
+          shippeddate: *a46
+          status: *a47
+          comments: *a48
+          customernumber: *a49
+        required:
+          - ordernumber
+          - body_ordernumber
+          - orderdate
+          - requireddate
+          - status
+          - customernumber
+      title: Update an order
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orders/{ordernumber}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_order
+      description: Update specific fields of an existing order record.
+      inputSchema:
+        type: object
+        properties:
+          ordernumber:
+            description: A unique value identifying this order.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          body_ordernumber:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          orderdate:
+            type: string
+            format: date
+          requireddate:
+            type: string
+            format: date
+          shippeddate:
+            type: string
+            format: date
+            nullable: true
+          status:
+            type: string
+            minLength: 1
+            maxLength: 15
+          comments:
+            type: string
+            nullable: true
+          customernumber:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - ordernumber
+      title: Partially update an order
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orders/{ordernumber}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_order
+      description: Remove an order from the system.
+      inputSchema:
+        type: object
+        properties:
+          ordernumber:
+            description: A unique value identifying this order.
+            x-parameter-location: path
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - ordernumber
+      title: Delete an order
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orders/{ordernumber}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_order_order_details
+      description: Retrieve all line items for a specific order. This endpoint
+        supports order fulfillment and invoice generation.
+      inputSchema:
+        type: object
+        properties:
+          ordernumber:
+            description: The order number
+            x-parameter-location: path
+            type: integer
+        required:
+          - ordernumber
+      title: Get order details by order
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orders/{ordernumber}/order-details/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_payment
+      description: Retrieve detailed information about a specific payment by customer
+        number and check number.
+      inputSchema:
+        type: object
+        properties:
+          checkNumber:
+            description: The check number
+            x-parameter-location: path
+            type: string
+          customerNumber:
+            description: The customer number
+            x-parameter-location: path
+            type: integer
+        required:
+          - checkNumber
+          - customerNumber
+      title: Get a specific payment
+      x-api-binding:
+        operationPath: /classic-models/api/v1/payments/{customerNumber}/{checkNumber}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_payment
+      description: Update all fields of an existing payment record.
+      inputSchema:
+        type: object
+        properties:
+          checkNumber:
+            description: The check number
+            x-parameter-location: path
+            type: string
+          customerNumber:
+            description: The customer number
+            x-parameter-location: path
+            type: integer
+          checknumber: &a50
+            type: string
+            minLength: 1
+            maxLength: 50
+          paymentdate: &a51
+            type: string
+            format: date
+          amount: &a52
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          customernumber: &a53
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - checkNumber
+          - customerNumber
+          - checknumber
+          - paymentdate
+          - amount
+          - customernumber
+      title: Update a payment
+      x-api-binding:
+        operationPath: /classic-models/api/v1/payments/{customerNumber}/{checkNumber}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_payment
+      description: Update specific fields of an existing payment record.
+      inputSchema:
+        type: object
+        properties:
+          checkNumber:
+            description: The check number
+            x-parameter-location: path
+            type: string
+          customerNumber:
+            description: The customer number
+            x-parameter-location: path
+            type: integer
+          checknumber:
+            type: string
+            minLength: 1
+            maxLength: 50
+          paymentdate:
+            type: string
+            format: date
+          amount:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          customernumber:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+        required:
+          - checkNumber
+          - customerNumber
+      title: Partially update a payment
+      x-api-binding:
+        operationPath: /classic-models/api/v1/payments/{customerNumber}/{checkNumber}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_payment
+      description: Remove a payment record from the system.
+      inputSchema:
+        type: object
+        properties:
+          checkNumber:
+            description: The check number
+            x-parameter-location: path
+            type: string
+          customerNumber:
+            description: The customer number
+            x-parameter-location: path
+            type: integer
+        required:
+          - checkNumber
+          - customerNumber
+      title: Delete a payment
+      x-api-binding:
+        operationPath: /classic-models/api/v1/payments/{customerNumber}/{checkNumber}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_payment
+      description: Record a new customer payment with check number, amount, and
+        payment date.
+      inputSchema:
+        type: object
+        properties:
+          checknumber: *a50
+          paymentdate: *a51
+          amount: *a52
+          customernumber: *a53
+        required:
+          - checknumber
+          - paymentdate
+          - amount
+          - customernumber
+      title: Create a new payment
+      x-api-binding:
+        operationPath: /classic-models/api/v1/payments/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: list_payments
+      description: Retrieve a paginated list of all customer payment records with
+        amounts and dates.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all payments
+      x-api-binding:
+        operationPath: /classic-models/api/v1/payments/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_order_detail
+      description: Retrieve a specific line item from an order using the composite key
+        (orderNumber, productCode).
+      inputSchema:
+        type: object
+        properties:
+          orderNumber:
+            description: The order number
+            x-parameter-location: path
+            type: integer
+          productCode:
+            description: The product code
+            x-parameter-location: path
+            type: string
+        required:
+          - orderNumber
+          - productCode
+      title: Get a specific order detail
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orderdetails/{orderNumber}/{productCode}/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: update_order_detail
+      description: Update all fields of an existing order line item.
+      inputSchema:
+        type: object
+        properties:
+          orderNumber:
+            description: The order number
+            x-parameter-location: path
+            type: integer
+          productCode:
+            description: The product code
+            x-parameter-location: path
+            type: string
+          quantityordered: &a54
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          priceeach: &a55
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          orderlinenumber: &a56
+            type: integer
+            maximum: 32767
+            minimum: -32768
+          ordernumber: &a57
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          productcode: &a58
+            type: string
+            minLength: 1
+        required:
+          - orderNumber
+          - productCode
+          - quantityordered
+          - priceeach
+          - orderlinenumber
+          - ordernumber
+          - productcode
+      title: Update an order detail
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orderdetails/{orderNumber}/{productCode}/
+        operationMethod: PUT
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: patch_order_detail
+      description: Update specific fields of an existing order line item.
+      inputSchema:
+        type: object
+        properties:
+          orderNumber:
+            description: The order number
+            x-parameter-location: path
+            type: integer
+          productCode:
+            description: The product code
+            x-parameter-location: path
+            type: string
+          quantityordered:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          priceeach:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          orderlinenumber:
+            type: integer
+            maximum: 32767
+            minimum: -32768
+          ordernumber:
+            type: integer
+            maximum: 2147483647
+            minimum: -2147483648
+          productcode:
+            type: string
+            minLength: 1
+        required:
+          - orderNumber
+          - productCode
+      title: Partially update an order detail
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orderdetails/{orderNumber}/{productCode}/
+        operationMethod: PATCH
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: delete_order_detail
+      description: Remove a line item from an order.
+      inputSchema:
+        type: object
+        properties:
+          orderNumber:
+            description: The order number
+            x-parameter-location: path
+            type: integer
+          productCode:
+            description: The product code
+            x-parameter-location: path
+            type: string
+        required:
+          - orderNumber
+          - productCode
+      title: Delete an order detail
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orderdetails/{orderNumber}/{productCode}/
+        operationMethod: DELETE
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: create_order_detail
+      description: Add a new line item to an existing order with product code,
+        quantity, and price.
+      inputSchema:
+        type: object
+        properties:
+          quantityordered: *a54
+          priceeach: *a55
+          orderlinenumber: *a56
+          ordernumber: *a57
+          productcode: *a58
+        required:
+          - quantityordered
+          - priceeach
+          - orderlinenumber
+          - ordernumber
+          - productcode
+      title: Create a new order detail
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orderdetails/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: list_order_details
+      description: Retrieve a paginated list of all order line items with product and
+        quantity information.
+      inputSchema:
+        type: object
+        properties: {}
+      title: List all order details
+      x-api-binding:
+        operationPath: /classic-models/api/v1/orderdetails/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: login
+      description: Authenticate user with username and password to obtain JWT tokens
+      inputSchema:
+        type: object
+        properties:
+          username:
+            type: string
+            minLength: 1
+          password:
+            type: string
+            writeOnly: true
+            minLength: 1
+        required:
+          - username
+          - password
+      title: User Login
+      x-api-binding:
+        operationPath: /classic-models/api/auth/login/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: logout
+      description: Logout user by blacklisting the refresh token
+      inputSchema:
+        type: object
+        properties:
+          refresh:
+            type: string
+            minLength: 1
+            description: Refresh token to blacklist
+        required:
+          - refresh
+      title: User Logout
+      x-api-binding:
+        operationPath: /classic-models/api/auth/logout/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: signup
+      description: Create a new user account
+      inputSchema:
+        type: object
+        properties:
+          username:
+            type: string
+            minLength: 1
+            description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+              only.
+            pattern: ^[\w.@+-]+$
+            maxLength: 150
+          email:
+            type: string
+            format: email
+            minLength: 1
+          first_name:
+            type: string
+            minLength: 1
+          last_name:
+            type: string
+            minLength: 1
+          password:
+            type: string
+            writeOnly: true
+            minLength: 8
+          password_confirm:
+            type: string
+            writeOnly: true
+            minLength: 1
+        required:
+          - username
+          - email
+          - first_name
+          - last_name
+          - password
+          - password_confirm
+      title: User Signup
+      x-api-binding:
+        operationPath: /classic-models/api/auth/signup/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: token_refresh
+      description: Refresh JWT access token using a valid refresh token
+      inputSchema:
+        type: object
+        properties:
+          refresh:
+            type: string
+            minLength: 1
+        required:
+          - refresh
+      title: Refresh Token
+      x-api-binding:
+        operationPath: /classic-models/api/auth/refresh/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: get_current_user
+      description: Get information about the currently authenticated user
+      inputSchema:
+        type: object
+        properties: {}
+      title: Get Current User
+      x-api-binding:
+        operationPath: /classic-models/api/auth/me/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: rate_limit_demo
+      description: Public endpoint to demonstrate rate limiting. Limited to 5 requests
+        per minute per IP.
+      inputSchema:
+        type: object
+        properties: {}
+      title: Rate Limit Demo
+      x-api-binding:
+        operationPath: /classic-models/api/auth/rate-limit-demo/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: oauth_authorize_get
+      description: >-
+        Authorization endpoint per RFC 6749 �4.1.1 and RFC 7636 (PKCE).
+
+
+        Validates the OAuth parameters and renders the login form for the
+        resource owner (user) to authenticate. Errors that cannot safely
+        redirect (unknown `client_id`, unregistered `redirect_uri`) return HTTP
+        400 directly per RFC 6749 �4.1.2.1.
+      inputSchema:
+        type: object
+        properties:
+          response_type:
+            type: string
+            minLength: 1
+            description: Must be `"code"`.
+          client_id:
+            type: string
+            format: uuid
+            description: The registered OAuth client identifier (UUID).
+          redirect_uri:
+            type: string
+            minLength: 1
+            description: Must exactly match one of the URIs registered for this client.
+          code_challenge:
+            type: string
+            minLength: 1
+            description: BASE64URL(SHA-256(code_verifier))  PKCE challenge (RFC 7636).
+          code_challenge_method:
+            type: string
+            minLength: 1
+            description: Must be `"S256"`. Plain is not supported.
+          state:
+            type: string
+            minLength: 1
+            description: Opaque value the client uses to maintain state between request and
+              callback.
+          scope:
+            type: string
+            minLength: 1
+            description: Space-separated list of requested scopes (optional; currently
+              unused).
+          username:
+            type: string
+            minLength: 1
+            description: Resource owner username.
+          password:
+            type: string
+            minLength: 1
+            description: Resource owner password.
+        required:
+          - response_type
+          - client_id
+          - redirect_uri
+          - code_challenge
+          - code_challenge_method
+          - username
+          - password
+      title: OAuth 2.0 Authorization  Submit Credentials
+      x-api-binding:
+        operationPath: /classic-models/api/oauth/authorize/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: oauth_token
+      description: >-
+        Token endpoint per RFC 6749 �4.1.3 and �6. Accepts
+        `application/x-www-form-urlencoded` bodies only (not JSON).
+
+
+        **grant_type=authorization_code**  Exchange a short-lived authorization
+        code (obtained from the authorization endpoint) for an access token and
+        refresh token. Requires the PKCE `code_verifier` matching the
+        `code_challenge` supplied during authorization.
+
+
+        **grant_type=refresh_token**  Exchange a refresh token for a new access
+        token. When token rotation is enabled (default) the old refresh token is
+        blacklisted and a new one is returned.
+
+
+        Client credentials are authenticated via `client_id` and `client_secret`
+        form fields (`client_secret_post` method).
+      inputSchema:
+        type: object
+        properties:
+          client_id:
+            description: Registered OAuth client identifier.
+            x-parameter-location: query
+            type: string
+          code_challenge:
+            description: BASE64URL(SHA-256(code_verifier))  PKCE challenge (RFC 7636).
+            x-parameter-location: query
+            type: string
+          code_challenge_method:
+            description: Must be `"S256"`. Plain is not supported.
+            x-parameter-location: query
+            type: string
+          redirect_uri:
+            description: Must match the `redirect_uri` used during authorization. Required
+              for `authorization_code` grant.
+            x-parameter-location: query
+            type: string
+          response_type:
+            description: Must be `"code"`.
+            x-parameter-location: query
+            type: string
+          scope:
+            description: Space-separated list of requested scopes (optional; currently
+              unused).
+            x-parameter-location: query
+            type: string
+          state:
+            description: Opaque value the client uses to maintain state between request and
+              callback.
+            x-parameter-location: query
+            type: string
+        required:
+          - client_id
+          - code_challenge
+          - code_challenge_method
+          - redirect_uri
+          - response_type
+      title: OAuth 2.0 Authorization  Show Login Form
+      x-api-binding:
+        operationPath: /classic-models/api/oauth/authorize/
+        operationMethod: GET
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: oauth_revoke
+      description: >-
+        Token revocation endpoint per RFC 7009. Accepts
+        `application/x-www-form-urlencoded` bodies only.
+
+
+        Blacklists the supplied refresh token so it can no longer be used to
+        obtain new access tokens. Per RFC 7009 �2.2 the server always returns
+        HTTP 200  even if the token is already invalid or expired  to avoid
+        leaking token validity information.
+
+
+        Client credentials are required and authenticated via
+        `client_secret_post`.
+      inputSchema:
+        type: object
+        properties:
+          grant_type:
+            type: object
+            properties: {}
+            enum:
+              - authorization_code
+              - refresh_token
+            description: |-
+              * `authorization_code` - authorization_code
+              * `refresh_token` - refresh_token
+          code:
+            type: string
+            minLength: 1
+            description: Authorization code received from the authorization endpoint.
+              Required for `authorization_code` grant.
+          code_verifier:
+            type: string
+            minLength: 1
+            description: PKCE code verifier (RFC 7636). Required for `authorization_code`
+              grant.
+          redirect_uri:
+            type: string
+            minLength: 1
+            description: Must match the `redirect_uri` used during authorization. Required
+              for `authorization_code` grant.
+          refresh_token:
+            type: string
+            minLength: 1
+            description: Refresh token to exchange. Required for `refresh_token` grant.
+          client_id:
+            type: string
+            format: uuid
+            description: Registered OAuth client identifier.
+          client_secret:
+            type: string
+            minLength: 1
+            description: OAuth client secret.
+        required:
+          - grant_type
+          - client_id
+          - client_secret
+      title: OAuth 2.0 Token Endpoint
+      x-api-binding:
+        operationPath: /classic-models/api/oauth/token/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml
+    - name: oauth_revoke
+      description: >-
+        Token revocation endpoint per RFC 7009. Accepts
+        `application/x-www-form-urlencoded` bodies only.
+
+
+        Blacklists the supplied refresh token so it can no longer be used to
+        obtain new access tokens. Per RFC 7009 �2.2 the server always returns
+        HTTP 200  even if the token is already invalid or expired  to avoid
+        leaking token validity information.
+
+
+        Client credentials are required and authenticated via
+        `client_secret_post`.
+      inputSchema:
+        type: object
+        properties:
+          token:
+            type: string
+            minLength: 1
+            description: The refresh token to revoke.
+          client_id:
+            type: string
+            format: uuid
+            description: Registered OAuth client identifier.
+          client_secret:
+            type: string
+            minLength: 1
+            description: OAuth client secret.
+        required:
+          - token
+          - client_id
+          - client_secret
+      title: OAuth 2.0 Token Revocation
+      x-api-binding:
+        operationPath: /classic-models/api/oauth/token/revoke/
+        operationMethod: POST
+        api:
+          $path: ./classic-models-api-spec.yml

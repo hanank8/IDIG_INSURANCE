@@ -1,0 +1,14 @@
+kind: Plan
+apiVersion: api.ibm.com/v1
+metadata:
+  name: aaaa-plan-rqwlw
+  namespace: aaaa
+  version: "1.0"
+  tags: []
+  description: ""
+  domain: mcp
+spec:
+  qos:
+    withQuota:
+      aaaa-plan-rqwlw-limit:
+        - $ref: aaaa:aaaa-quota-rqwlw:1.0

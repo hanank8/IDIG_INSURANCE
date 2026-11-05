@@ -34,36 +34,6 @@
       "contentHash": "2b2f399d34879e25"
     },
     {
-      "id": "dd29185f-e42b-460a-874d-1cd3d43f78a5:0",
-      "projectId": "cHIbVPLW",
-      "filePath": "cars/classic-models-api-server-20o5l/policies/telemetry-20o5l.yaml",
-      "docIndex": 0,
-      "assetType": "resource",
-      "lastIndexed": 1793900126314,
-      "schemaVersion": 1,
-      "kind": "Telemetry",
-      "name": "telemetry-20o5l",
-      "namespace": "cars",
-      "version": "1.0",
-      "domain": "mcp",
-      "contentHash": "4192e70aa7e76460"
-    },
-    {
-      "id": "e3409011-7905-4100-8951-3d5cd93eb11e:0",
-      "projectId": "cHIbVPLW",
-      "filePath": "cars/classic-models-api-server-20o5l/policies/invoke-20o5l.yaml",
-      "docIndex": 0,
-      "assetType": "resource",
-      "lastIndexed": 1793900125306,
-      "schemaVersion": 1,
-      "kind": "Invoke",
-      "name": "invoke-20o5l",
-      "namespace": "cars",
-      "version": "1.0",
-      "domain": "mcp",
-      "contentHash": "923334b5be3a0768"
-    },
-    {
       "id": "f38697c0-e49c-445d-9a10-c757ddd615ea:0",
       "projectId": "cHIbVPLW",
       "filePath": "cars/classic-models-api-server-20o5l/server/classic-models-api-tool-20o5l.yaml",

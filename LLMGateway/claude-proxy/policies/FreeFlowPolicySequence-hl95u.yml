@@ -1,0 +1,24 @@
+kind: FreeFlowPolicySequence
+apiVersion: api.ibm.com/v1
+metadata:
+  name: freeflowpolicysequence-claude-proxy-hl95u
+  namespace: llmgateway
+  version: 1.0.0
+  tags: []
+  domain: ai-platform
+  labels:
+    gatewayTypes:
+      - nano
+spec:
+  main:
+    - $ref: llmgateway:ExtractIdentity-hl95u:1.0.0
+    - $ref: llmgateway:Authenticate-hl95u:1.0.0
+    - $ref: llmgateway:Authorize-hl95u:1.0.0
+    - $ref: llmgateway:If-hl95u:1.0.0
+    - $ref: llmgateway:OperationSwitch-hl95u:1.0.0
+  monitoring:
+    $ref: llmgateway:Telemetry-hl95u:1.0.0
+  error:
+    - errorType: []
+      execute:
+        - $ref: llmgateway:Throw-hl95u:1.0.0

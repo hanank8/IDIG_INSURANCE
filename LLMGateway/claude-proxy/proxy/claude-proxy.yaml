@@ -1,0 +1,24 @@
+kind: LLMProxy
+apiVersion: api.ibm.com/v1
+metadata:
+  name: claude-proxy
+  namespace: llmgateway
+  version: 1.0.0
+  tags: []
+  labels:
+    gatewayTypes:
+      - nano
+  domain: ai-platform
+  description: ""
+spec:
+  title: Claude proxy
+  providers:
+    - claude-ns:claude:1.0.0
+  providerType: anthropic
+  basePath: /dev
+  selectedModels:
+    - claude-sonnet-5-5
+  plan:
+    $ref: llmgateway:plan-claude-proxy-hl95u:1.0.0
+  policy-sequence:
+    - $ref: llmgateway:freeflowpolicysequence-claude-proxy-hl95u:1.0.0

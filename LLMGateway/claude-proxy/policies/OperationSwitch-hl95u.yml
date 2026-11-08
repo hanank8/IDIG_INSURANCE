@@ -1,0 +1,31 @@
+kind: OperationSwitch
+apiVersion: api.ibm.com/v1
+metadata:
+  name: OperationSwitch-hl95u
+  namespace: llmgateway
+  version: 1.0.0
+  tags: []
+  domain: ai-platform
+  labels:
+    gatewayTypes:
+      - nano
+spec:
+  cases:
+    - conditions:
+        - verbPath:
+            path: /chat/completions
+            verb: POST
+      execute:
+        - $ref: llmgateway:OpenAIChatCompletions-hl95u:1.0.0
+    - conditions:
+        - verbPath:
+            path: /models
+            verb: GET
+      execute:
+        - $ref: llmgateway:OpenAIModels-hl95u:1.0.0
+    - conditions:
+        - verbPath:
+            path: /models/{a_model_id}
+            verb: GET
+      execute:
+        - $ref: llmgateway:OpenAIModelsId-hl95u:1.0.0
